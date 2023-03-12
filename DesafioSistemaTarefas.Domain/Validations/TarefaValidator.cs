@@ -2,6 +2,7 @@
 using DesafioSistemaTarefas.Domain.Enums;
 using DesafioSistemaTarefas.Domain.Exceptions;
 using FluentValidation;
+using FluentValidation.Results;
 
 namespace DesafioSistemaTarefas.Domain.Validations
 {
@@ -17,8 +18,13 @@ namespace DesafioSistemaTarefas.Domain.Validations
         public TarefaValidator(int idTarefa)
         {
             RuleFor(tarefa => tarefa.Id).GreaterThan(0).WithState(a => new DomainException("Id da tarefa inválido."));
-            _ = new TarefaValidator();
-        }
+            RuleFor(tarefa => tarefa).SetValidator(new TarefaValidator());
 
+        }
+        protected override void RaiseValidationException(ValidationContext<Tarefa> context, ValidationResult result)
+        {
+            var ex = new ValidationException(result.Errors);
+            throw new DomainException(ex.Message, ex);
+        }
     }
 }

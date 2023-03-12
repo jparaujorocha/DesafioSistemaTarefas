@@ -1,6 +1,6 @@
 ﻿using DesafioSistemaTarefas.Domain.Enums;
 using DesafioSistemaTarefas.Domain.Validations;
-using FluentValidation.Results;
+using FluentValidation;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DesafioSistemaTarefas.Domain.Entities
@@ -17,21 +17,17 @@ namespace DesafioSistemaTarefas.Domain.Entities
         [Column("IdStatusTarefa")]
         public int IdStatusTarefa { get; private set; }
 
-        public Tarefa(string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa)
+        public Tarefa(int? id, string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa)
         {
-            SetNome(nome);
             SetStatusTarefa(idStatusTarefa);
+            SetNome(nome);
             SetDescricao(descricao);
             SetDataHoraTarefa(dataHoraTarefa);
-        }
 
-        public Tarefa(int id, string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa)
-        {
-            SetId(id);
-            SetStatusTarefa(idStatusTarefa);
-            SetNome(nome);
-            SetDescricao(descricao);
-            SetDataHoraTarefa(dataHoraTarefa);
+            if (id.HasValue && id.Value > 0)
+            {
+                SetId(id.Value);
+            }
         }
 
         public void SetNome(string nome)
@@ -46,20 +42,23 @@ namespace DesafioSistemaTarefas.Domain.Entities
         public void SetDataHoraTarefa(DateTime dataHoraTarefa)
         {
             DataHoraTarefa = dataHoraTarefa;
-
         }
 
-        public ValidationResult ValidateWithoutId()
+        public virtual bool ValidateWithoutId()
         {
-            return new TarefaValidator().Validate(this);
+            new TarefaValidator().ValidateAndThrow(this);
+
+            return true;
+        }
+        public virtual bool ValidateWithId()
+        {
+            new TarefaValidator(Id).ValidateAndThrow(this);
+
+            return true;
         }
         public void SetStatusTarefa(int idStatusTarefa)
         {
             IdStatusTarefa = Convert.ToInt32((EnumStatusTarefa)idStatusTarefa);
-        }
-        public ValidationResult ValidateWithId()
-        {
-            return new TarefaValidator(Id).Validate(this);
         }
 
         public string GetNomeStatusTarefa(int idStatusTarefa)

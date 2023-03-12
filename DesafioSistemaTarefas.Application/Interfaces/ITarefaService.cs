@@ -4,13 +4,13 @@ namespace DesafioSistemaTarefas.Application.Interfaces
 {
     public interface ITarefaService
     {
-        TarefaDto BuscarTarefa(int idTarefa);
-        IEnumerable<TarefaDto> BuscarTarefas();
-        IEnumerable<TarefaDto> BuscarTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal);
-        TarefaDto InserirTarefa(TarefaDto dadosTarefa);
-        TarefaDto AtualizarTarefa(TarefaDto dadosTarefa);
-        void ExcluirTarefa(int idTarefa);
-        void ConcluirTarefa(int idTarefa);
-        TarefaDto ReativarTarefa(int idTarefa);
+        Task<TarefaDto> BuscarTarefa(int idTarefa);
+        Task<IEnumerable<TarefaDto>> BuscarTarefas();
+        Task<TarefaDto> InserirTarefa(TarefaDto dadosTarefa);
+        Task<bool> ExcluirTarefa(int idTarefa);
+        Task<IEnumerable<TarefaDto>> BuscarTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal);
+        Task<TarefaDto> AtualizarTarefa(TarefaDto dadosTarefa);
+        Task<bool> ConcluirTarefa(int idTarefa);
+        Task<TarefaDto> ReativarTarefa(int idTarefa);
     }
 }

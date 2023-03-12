@@ -4,10 +4,10 @@ namespace DesafioSistemaTarefas.Application.Interfaces
 {
     public interface IHistoricoTarefaService
     {
-        HistoricoTarefaDto BuscarPorId(int idHistoricoTarefa);
-        HistoricoTarefaDto BuscarPorIdTarefa(int idTarefa);
-        IEnumerable<HistoricoTarefaDto> BuscarHistoricoTarefas();
-        HistoricoTarefaDto InserirHistoricoTarefa(HistoricoTarefaDto dadosTarefa);
-        void ExcluirHistoricoTarefa(int idHistoricoTarefa);
+        Task<HistoricoTarefaDto> BuscarPorId(int idHistoricoTarefa);
+        Task<HistoricoTarefaDto> BuscarPorIdTarefa(int idTarefa);
+        Task<IEnumerable<HistoricoTarefaDto>> BuscarHistoricoTarefas();
+        Task<HistoricoTarefaDto> InserirHistoricoTarefa(HistoricoTarefaDto dadosTarefa);
+        Task<bool> ExcluirHistoricoTarefa(int idHistoricoTarefa);
     }
 }

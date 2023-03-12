@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using DesafioSistemaTarefas.Domain.Validations;
+using FluentValidation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DesafioSistemaTarefas.Domain.Entities
 {
@@ -12,17 +14,13 @@ namespace DesafioSistemaTarefas.Domain.Entities
         [Column("IdTarefa")]
         public int IdTarefa { get; private set; }
 
-        public HistoricoTarefa(int idTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao,
+        public HistoricoTarefa(int? id, int idTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao,
                                string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa) : base(idTarefa, nome, descricao, dataHoraTarefa, idStatusTarefa)
         {
-            SetIdTarefa(idTarefa);
-            SetDataHoraExclusao(dataHoraExclusao);
-            SetDataHoraConclusao(dataHoraConclusao);
-        }
-        public HistoricoTarefa(int id, int idTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao,
-                               string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa) : base(idTarefa, nome, descricao, dataHoraTarefa, idStatusTarefa)
-        {
-            SetId(id);
+            if (id.HasValue && id.Value > 0)
+            {
+                SetId(id.Value);
+            }
             SetIdTarefa(idTarefa);
             SetDataHoraExclusao(dataHoraExclusao);
             SetDataHoraConclusao(dataHoraConclusao);
@@ -41,6 +39,13 @@ namespace DesafioSistemaTarefas.Domain.Entities
         public void SetDataHoraExclusao(DateTime? dataHoraExclusao)
         {
             DataHoraExclusao = dataHoraExclusao;
+        }
+
+        public override bool ValidateWithoutId()
+        {
+            new HistoricoTarefaValidator().ValidateAndThrow(this);
+
+            return true;
         }
     }
 }

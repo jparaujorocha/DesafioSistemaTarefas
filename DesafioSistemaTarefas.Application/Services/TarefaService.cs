@@ -25,14 +25,14 @@ namespace DesafioSistemaTarefas.Application.Services
             _logger = logger;
         }
 
-        public TarefaDto InserirTarefa(TarefaDto dadosTarefa)
+        public async Task<TarefaDto> InserirTarefa(TarefaDto dadosTarefa)
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to InserirTarefa");
 
                 if (dadosTarefa == null)
-                    throw new Exception("Necessário informar uma tarefa para inserção.");
+                    throw new DomainException("Necessário informar uma tarefa para inserção.");
 
                 var tarefa = _mapper.Map<Tarefa>(dadosTarefa);
 
@@ -40,17 +40,14 @@ namespace DesafioSistemaTarefas.Application.Services
                 tarefa.SetId(0);
                 tarefa.SetStatusTarefa((int)EnumStatusTarefa.ATIVA);
 
-                var validacao = tarefa.ValidateWithoutId();
-                if (!validacao.IsValid)
+                if (tarefa.ValidateWithoutId())
                 {
-                    throw new Exception("Erro: " + validacao.Errors[0].ErrorMessage);
+                    tarefa = await _tarefaRepository.Add(tarefa);
+
+                    await _tarefaRepository.Commit();
+
+                    _logger.LogInformation("Finish TarefaService to InserirTarefa");
                 }
-
-                tarefa = _tarefaRepository.Add(tarefa).Result;
-
-                _tarefaRepository.Commit();
-
-                _logger.LogInformation("Finish TarefaService to InserirTarefa");
 
                 return _mapper.Map<TarefaDto>(tarefa);
             }
@@ -68,19 +65,19 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public TarefaDto AtualizarTarefa(TarefaDto dadosTarefa)
+        public async Task<TarefaDto> AtualizarTarefa(TarefaDto dadosTarefa)
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to AtualizarTarefa");
 
                 if (dadosTarefa == null || !dadosTarefa.Id.HasValue || dadosTarefa.Id == 0)
-                    throw new Exception("Necessário informar uma tarefa para atualização.");
+                    throw new DomainException("Necessário informar uma tarefa para atualização.");
 
                 var tarefa = _tarefaRepository.GetById(dadosTarefa.Id.Value).Result;
 
                 if (tarefa == null || tarefa.Id == 0)
-                    throw new Exception("Nenhuma tarefa encontrada para atualização.");
+                    throw new DomainException("Nenhuma tarefa encontrada para atualização.");
 
                 dadosTarefa.DataCriacao = tarefa.DataCriacao;
                 dadosTarefa.DataAtualizacao = DateTime.Now;
@@ -89,7 +86,8 @@ namespace DesafioSistemaTarefas.Application.Services
 
                 tarefa.ValidateWithId();
 
-                _tarefaRepository.Update(tarefa);
+                await _tarefaRepository.Update(tarefa);
+                await _tarefaRepository.Commit();
 
                 tarefa = _tarefaRepository.GetById(tarefa.Id).Result;
 
@@ -111,7 +109,7 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public void ExcluirTarefa(int idTarefa)
+        public async Task<bool> ExcluirTarefa(int idTarefa)
         {
             try
             {
@@ -123,6 +121,8 @@ namespace DesafioSistemaTarefas.Application.Services
                 EnviarTarefaParaHistoricoTarefa(dadosTarefa);
                 DeletarTarefa(idTarefa);
                 _logger.LogInformation("Finish TarefaService to InserirTarefa");
+
+                return true;
             }
             catch (DomainException ex)
             {
@@ -138,18 +138,25 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public void ConcluirTarefa(int idTarefa)
+        public async Task<bool> ConcluirTarefa(int idTarefa)
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to ConcluirTarefa");
+
                 var dadosTarefa = BuscarTarefaPorId(idTarefa);
+
+                if (dadosTarefa == null || dadosTarefa.Id == 0)
+                    throw new DomainException("Tarefa informada não encontrada na base.");
 
                 dadosTarefa.SetStatusTarefa((int)EnumStatusTarefa.CONCLUIDA);
 
-                EnviarTarefaParaHistoricoTarefa(dadosTarefa);
-                DeletarTarefa(idTarefa);
+                await EnviarTarefaParaHistoricoTarefa(dadosTarefa);
+                await DeletarTarefa(idTarefa);
+
                 _logger.LogInformation("Finish TarefaService to ConcluirTarefa");
+
+                return true;
             }
             catch (DomainException ex)
             {
@@ -164,19 +171,20 @@ namespace DesafioSistemaTarefas.Application.Services
                 throw new ApplicationException("Erro ao concluir tarefa", innerException: ex);
             }
         }
-        public TarefaDto ReativarTarefa(int idTarefa)
+        public async Task<TarefaDto> ReativarTarefa(int idTarefa)
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to ReativarTarefa");
-                var dadosHistoricoTarefa = _historicoTarefaService.BuscarPorIdTarefa(idTarefa);
+                var dadosHistoricoTarefa = _historicoTarefaService.BuscarPorIdTarefa(idTarefa).Result;
 
                 if (dadosHistoricoTarefa == null || dadosHistoricoTarefa.Id == 0)
-                    throw new Exception("Tarefa informada não encontrada na base histórica.");
+                    throw new DomainException("Tarefa informada não encontrada na base histórica.");
 
-                var tarefaDto = InserirTarefa(_mapper.Map<TarefaDto>(dadosHistoricoTarefa));
+                var tarefaDto = await InserirTarefa(_mapper.Map<TarefaDto>(dadosHistoricoTarefa));
 
-                _historicoTarefaService.ExcluirHistoricoTarefa(dadosHistoricoTarefa.Id.Value);
+                await _historicoTarefaService.ExcluirHistoricoTarefa(dadosHistoricoTarefa.Id.Value);
+
                 _logger.LogInformation("Finish TarefaService to ReativarTarefa");
 
                 return tarefaDto;
@@ -195,13 +203,13 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public IEnumerable<TarefaDto> BuscarTarefas()
+        public async Task<IEnumerable<TarefaDto>> BuscarTarefas()
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to BuscarTarefas");
 
-                var listaTarefas = _tarefaRepository.GetAll().Result;
+                var listaTarefas = await _tarefaRepository.GetAll();
 
                 if (listaTarefas == null || !listaTarefas.Any())
                     return new List<TarefaDto>();
@@ -224,13 +232,13 @@ namespace DesafioSistemaTarefas.Application.Services
                 throw new ApplicationException("Erro ao buscar tarefas", innerException: ex);
             }
         }
-        public TarefaDto BuscarTarefa(int idTarefa)
+        public async Task<TarefaDto> BuscarTarefa(int idTarefa)
         {
             try
             {
                 _logger.LogInformation("Start TarefaService to BuscarTarefa(int idTarefa)");
 
-                var tarefa = _tarefaRepository.GetById(idTarefa);
+                var tarefa = await _tarefaRepository.GetById(idTarefa);
 
                 if (tarefa == null || tarefa.Id == 0)
                     return new TarefaDto();
@@ -252,8 +260,7 @@ namespace DesafioSistemaTarefas.Application.Services
                 throw new ApplicationException("Erro ao buscar tarefa", innerException: ex);
             }
         }
-
-        public IEnumerable<TarefaDto> BuscarTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal)
+        public async Task<IEnumerable<TarefaDto>> BuscarTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal)
         {
             try
             {
@@ -262,7 +269,7 @@ namespace DesafioSistemaTarefas.Application.Services
                 dataInicial = new DateTime(dataInicial.Year, dataInicial.Month, dataInicial.Day, 0, 0, 0);
                 dataFinal = new DateTime(dataFinal.Year, dataFinal.Month, dataFinal.Day, 23, 59, 59);
 
-                var listaTarefas = _tarefaRepository.GetTarefasByPeriodo(dataInicial, dataFinal).Result;
+                var listaTarefas = await _tarefaRepository.GetTarefasByPeriodo(dataInicial, dataFinal);
 
                 if (listaTarefas == null || !listaTarefas.Any())
                     return new List<TarefaDto>();
@@ -286,11 +293,11 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        private void EnviarTarefaParaHistoricoTarefa(Tarefa tarefa)
+        private async Task EnviarTarefaParaHistoricoTarefa(Tarefa tarefa)
         {
             var historicoTarefa = _mapper.Map<HistoricoTarefaDto>(tarefa);
 
-            _ = _historicoTarefaService.InserirHistoricoTarefa(historicoTarefa);
+            _ = await _historicoTarefaService.InserirHistoricoTarefa(historicoTarefa);
         }
 
         private Tarefa BuscarTarefaPorId(int idTarefa)
@@ -298,18 +305,18 @@ namespace DesafioSistemaTarefas.Application.Services
             var dadosTarefa = _tarefaRepository.GetById(idTarefa).Result;
 
             if (dadosTarefa == null || dadosTarefa.Id == 0)
-                throw new Exception("Tarefa informada não encontrada na base.");
+                throw new DomainException("Tarefa informada não encontrada na base.");
 
             return dadosTarefa;
         }
 
-        private void DeletarTarefa(int idTarefa)
+        private async Task DeletarTarefa(int idTarefa)
         {
             var dadosTarefa = BuscarTarefaPorId(idTarefa);
             if (dadosTarefa == null || dadosTarefa.Id == 0)
-                throw new Exception("Tarefa informada não encontrada na base.");
-            _tarefaRepository.Delete(dadosTarefa);
-            _tarefaRepository.Commit();
+                throw new DomainException("Tarefa informada não encontrada na base.");
+            await _tarefaRepository.Delete(dadosTarefa);
+            await _tarefaRepository.Commit();
         }
     }
 }

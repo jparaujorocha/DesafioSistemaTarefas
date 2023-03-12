@@ -1,5 +1,8 @@
-﻿namespace DesafioSistemaTarefas.Application.DTOs
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DesafioSistemaTarefas.Application.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class TarefaDto : BaseDto
     {
         public string Nome { get; set; }

@@ -22,12 +22,12 @@ namespace DesafioSistemaTarefas.Application.Services
             _logger = logger;
         }
 
-        public IEnumerable<HistoricoTarefaDto> BuscarHistoricoTarefas()
+        public async Task<IEnumerable<HistoricoTarefaDto>> BuscarHistoricoTarefas()
         {
             try
             {
                 _logger.LogInformation("Start HistoricoTarefaService to BuscarHistoricoTarefas");
-                var listaHistoricoTarefa = _historicoTarefaRepository.GetAll().Result;
+                var listaHistoricoTarefa = await _historicoTarefaRepository.GetAll();
                 if (listaHistoricoTarefa == null || !listaHistoricoTarefa.Any())
                     return new List<HistoricoTarefaDto>();
 
@@ -48,12 +48,12 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public HistoricoTarefaDto BuscarPorIdTarefa(int idTarefa)
+        public async Task<HistoricoTarefaDto> BuscarPorIdTarefa(int idTarefa)
         {
             try
             {
                 _logger.LogInformation("Start HistoricoTarefaService to BuscarPorIdTarefa");
-                var historicoTarefa = _historicoTarefaRepository.Get(a => a.IdTarefa == idTarefa);
+                var historicoTarefa = await _historicoTarefaRepository.Get(a => a.IdTarefa == idTarefa);
                 if (historicoTarefa == null || historicoTarefa.Id == 0)
                     return new HistoricoTarefaDto();
 
@@ -74,13 +74,13 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public HistoricoTarefaDto BuscarPorId(int id)
+        public async Task<HistoricoTarefaDto> BuscarPorId(int id)
         {
             try
             {
                 _logger.LogInformation("Start HistoricoTarefaService to BuscarPorId");
 
-                var historicoTarefa = _historicoTarefaRepository.GetById(id);
+                var historicoTarefa = await _historicoTarefaRepository.GetById(id);
                 if (historicoTarefa == null || historicoTarefa.Id == 0)
                     return new HistoricoTarefaDto();
 
@@ -101,25 +101,26 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public HistoricoTarefaDto InserirHistoricoTarefa(HistoricoTarefaDto dadosHistoricoTarefa)
+        public async Task<HistoricoTarefaDto> InserirHistoricoTarefa(HistoricoTarefaDto dadosHistoricoTarefa)
         {
             try
             {
                 _logger.LogInformation("Start HistoricoTarefaService to InserirTarefa");
-                if (dadosHistoricoTarefa == null)
-                    throw new Exception("Necessário informar uma tarefa do histórico para inserção.");
 
-                dadosHistoricoTarefa.Id = 0;
+                if (dadosHistoricoTarefa == null)
+                    throw new DomainException("Necessário informar uma tarefa do histórico para inserção.");
 
                 var historicoTarefa = _mapper.Map<HistoricoTarefa>(dadosHistoricoTarefa);
 
+                historicoTarefa.Id = 0;
                 SetDataHoraExclusaoConclusao(historicoTarefa);
                 historicoTarefa.SetDataCriacao(DateTime.Now);
 
-                _ = historicoTarefa.ValidateWithoutId();
-
-                historicoTarefa = _historicoTarefaRepository.Add(historicoTarefa).Result;
-                _historicoTarefaRepository.Commit();
+                if (historicoTarefa.ValidateWithoutId())
+                {
+                    historicoTarefa = await _historicoTarefaRepository.Add(historicoTarefa);
+                    await _historicoTarefaRepository.Commit();
+                }
 
                 _logger.LogInformation("Finish HistoricoTarefaService to InserirHistoricoTarefa");
                 return _mapper.Map<HistoricoTarefaDto>(historicoTarefa);
@@ -138,20 +139,8 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        private void SetDataHoraExclusaoConclusao(HistoricoTarefa historicoTarefa)
-        {
-            switch (historicoTarefa.IdStatusTarefa)
-            {
-                case (int)EnumStatusTarefa.EXCLUIDA:
-                    historicoTarefa.SetDataHoraExclusao(DateTime.Now);
-                    break;
-                case (int)EnumStatusTarefa.CONCLUIDA:
-                    historicoTarefa.SetDataHoraConclusao(DateTime.Now);
-                    break;
-            }
-        }
 
-        public void ExcluirHistoricoTarefa(int idHistoricoTarefa)
+        public async Task<bool> ExcluirHistoricoTarefa(int idHistoricoTarefa)
         {
             try
             {
@@ -159,12 +148,14 @@ namespace DesafioSistemaTarefas.Application.Services
                 var dadosHistoricoTarefa = _historicoTarefaRepository.GetById(idHistoricoTarefa).Result;
 
                 if (dadosHistoricoTarefa == null || dadosHistoricoTarefa.Id == 0)
-                    throw new Exception("Necessário informar uma tarefa do histórico para exclusão.");
+                    throw new DomainException("Necessário informar um registro válido para exclusão.");
 
-                _historicoTarefaRepository.Delete(dadosHistoricoTarefa);
-                _historicoTarefaRepository.Commit();
+                await _historicoTarefaRepository.Delete(dadosHistoricoTarefa);
+                await _historicoTarefaRepository.Commit();
 
                 _logger.LogInformation("Finish HistoricoTarefaService to ExcluirHistoricoTarefa");
+
+                return true;
             }
             catch (DomainException ex)
             {
@@ -177,6 +168,18 @@ namespace DesafioSistemaTarefas.Application.Services
             catch (Exception ex)
             {
                 throw new ApplicationException("Erro ao excluir histórico de tarefa", innerException: ex);
+            }
+        }
+        private void SetDataHoraExclusaoConclusao(HistoricoTarefa historicoTarefa)
+        {
+            switch (historicoTarefa.IdStatusTarefa)
+            {
+                case (int)EnumStatusTarefa.EXCLUIDA:
+                    historicoTarefa.SetDataHoraExclusao(DateTime.Now);
+                    break;
+                case (int)EnumStatusTarefa.CONCLUIDA:
+                    historicoTarefa.SetDataHoraConclusao(DateTime.Now);
+                    break;
             }
         }
 

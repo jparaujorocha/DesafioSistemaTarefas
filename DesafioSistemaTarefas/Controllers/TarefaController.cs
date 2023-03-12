@@ -21,13 +21,13 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetTarefas")]
         [HttpGet]
-        public ActionResult<IEnumerable<TarefaDto>> GetTarefas()
+        public async Task<ActionResult<IEnumerable<TarefaDto>>> GetTarefas()
         {
             try
             {
                 _logger.LogInformation("Start ApiTarefa to GetTarefas");
 
-                var listaTarefas = _tarefaService.BuscarTarefas();
+                var listaTarefas = await _tarefaService.BuscarTarefas();
                 if (listaTarefas == null || !listaTarefas.Any())
                 {
                     _logger.LogWarning("Finish ApiTarefa to GetTarefas: Nenhuma Tarefa Encontrada.");
@@ -63,13 +63,13 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetTarefasPorPeriodo")]
         [HttpGet]
-        public ActionResult<IEnumerable<TarefaDto>> GetTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal)
+        public async Task<ActionResult<IEnumerable<TarefaDto>>> GetTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal)
         {
             try
             {
                 _logger.LogInformation("Start ApiTarefa to GetTarefasPorPeriodo");
 
-                var listaTarefas = _tarefaService.BuscarTarefasPorPeriodo(dataInicial, dataFinal);
+                var listaTarefas = await _tarefaService.BuscarTarefasPorPeriodo(dataInicial, dataFinal);
                 if (listaTarefas == null || !listaTarefas.Any())
                 {
                     _logger.LogWarning("Finish ApiTarefa to GetTarefasPorPeriodo: Nenhuma Tarefa Encontrada.");
@@ -105,13 +105,13 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetTarefa/{id}")]
         [HttpGet]
-        public ActionResult<TarefaDto> GetTarefa(int id)
+        public async Task<ActionResult<TarefaDto>> GetTarefa(int id)
         {
             try
             {
                 _logger.LogInformation("Start ApiTarefa to GetTarefa");
 
-                var tarefa = _tarefaService.BuscarTarefa(id);
+                var tarefa = await _tarefaService.BuscarTarefa(id);
                 if (tarefa == null || tarefa.Id == 0)
                 {
                     _logger.LogWarning("Finish ApiTarefa to GetTarefa: Tarefa não encontrada.");
@@ -144,7 +144,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("InsertTarefa")]
         [HttpPost]
-        public ActionResult InsertTarefa([FromBody] TarefaDto tarefaDto)
+        public async Task<ActionResult> InsertTarefa([FromBody] TarefaDto tarefaDto)
         {
             try
             {
@@ -155,10 +155,9 @@ namespace DesafioSistemaTarefas.API.Controllers
                     _logger.LogWarning("Finish ApiTarefa to GetTarefa: Dados Inválidos.");
                     return BadRequest("Dados Inválidos.");
                 }
-                tarefaDto = _tarefaService.InserirTarefa(tarefaDto);
+                tarefaDto = await _tarefaService.InserirTarefa(tarefaDto);
 
                 _logger.LogInformation("Finish ApiTarefa to InsertTarefa");
-
 
                 return StatusCode(StatusCodes.Status201Created, tarefaDto);
             }
@@ -186,7 +185,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("UpdateTarefa")]
         [HttpPut]
-        public ActionResult UpdateTarefa([FromBody] TarefaDto tarefaDto)
+        public async Task<ActionResult<TarefaDto>> UpdateTarefa([FromBody] TarefaDto tarefaDto)
         {
             try
             {
@@ -197,7 +196,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Tarefa enviada para atualização inválida.");
                 }
 
-                tarefaDto = _tarefaService.AtualizarTarefa(tarefaDto);
+                tarefaDto = await _tarefaService.AtualizarTarefa(tarefaDto);
 
                 _logger.LogInformation("Finish ApiTarefa to UpdateTarefa");
 
@@ -227,7 +226,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("DeleteTarefa/{idTarefa}")]
         [HttpDelete]
-        public ActionResult DeleteTarefa(int idTarefa)
+        public async Task<ActionResult> DeleteTarefa(int idTarefa)
         {
             try
             {
@@ -238,7 +237,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Tarefa enviada para exclusão inválida.");
                 }
 
-                _tarefaService.ExcluirTarefa(idTarefa);
+                await _tarefaService.ExcluirTarefa(idTarefa);
 
                 _logger.LogInformation("Finish ApiTarefa to DeleteTarefa");
 
@@ -268,7 +267,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("UpdateConcluirTarefa/{idTarefa}")]
         [HttpPut]
-        public ActionResult UpdateConcluirTarefa(int idTarefa)
+        public async Task<ActionResult> UpdateConcluirTarefa(int idTarefa)
         {
             try
             {
@@ -280,7 +279,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Tarefa enviada para conclusão inválida.");
                 }
 
-                _tarefaService.ConcluirTarefa(idTarefa);
+                await _tarefaService.ConcluirTarefa(idTarefa);
 
                 _logger.LogInformation("Finish ApiTarefa to UpdateConcluirTarefa");
 
@@ -310,7 +309,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("PostReativarTarefa/{idTarefa}")]
         [HttpPost]
-        public ActionResult PostRestaurarTarefa(int idTarefa)
+        public async Task<ActionResult> PostRestaurarTarefa(int idTarefa)
         {
             try
             {
@@ -324,7 +323,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 _logger.LogInformation("Finish ApiTarefa to PostRestaurarTarefa");
 
-                var tarefaDto = _tarefaService.ReativarTarefa(idTarefa);
+                var tarefaDto = await _tarefaService.ReativarTarefa(idTarefa);
 
                 return StatusCode(StatusCodes.Status201Created, tarefaDto);
 

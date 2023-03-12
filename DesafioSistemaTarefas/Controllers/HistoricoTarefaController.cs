@@ -4,8 +4,6 @@ using DesafioSistemaTarefas.Domain.Exceptions;
 using DesafioSistemaTarefas.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace DesafioSistemaTarefas.API.Controllers
 {
     [Route("api/[controller]")]
@@ -22,13 +20,13 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetHistoricoTarefas")]
         [HttpGet]
-        public ActionResult<IEnumerable<HistoricoTarefaDto>> Get()
+        public async Task<ActionResult<IEnumerable<HistoricoTarefaDto>>> Get()
         {
             try
             {
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetHistoricoTarefas");
 
-                var listaHistoricoTarefas = _historicoTarefaService.BuscarHistoricoTarefas();
+                var listaHistoricoTarefas = await _historicoTarefaService.BuscarHistoricoTarefas();
                 if (listaHistoricoTarefas == null || !listaHistoricoTarefas.Any())
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetHistoricoTarefas: Nenhum Historico da Tarefa Encontrado.");
@@ -64,12 +62,12 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetHistoricoTarefa/{id}")]
         [HttpGet]
-        public ActionResult<HistoricoTarefaDto> Get(int id)
+        public async Task<ActionResult<HistoricoTarefaDto>> Get(int id)
         {
             try
             {
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetHistoricoTarefa");
-                var historicoTarefa = _historicoTarefaService.BuscarPorId(id);
+                var historicoTarefa = await _historicoTarefaService.BuscarPorId(id);
                 if (historicoTarefa == null || !historicoTarefa.Id.HasValue || historicoTarefa.Id == 0)
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetHistoricoTarefa: Histórico da tarefa não encontrado.");
@@ -102,12 +100,13 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("GetByIdTarefa/{idTarefa}")]
         [HttpGet]
-        public ActionResult<HistoricoTarefaDto> GetByIdTarefa(int idTarefa)
+        public async Task<ActionResult<HistoricoTarefaDto>> GetByIdTarefa(int idTarefa)
         {
             try
             {
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetByIdTarefa");
-                var historicoTarefa = _historicoTarefaService.BuscarPorIdTarefa(idTarefa);
+                var historicoTarefa = await _historicoTarefaService.BuscarPorIdTarefa(idTarefa);
+
                 if (historicoTarefa == null || !historicoTarefa.Id.HasValue || historicoTarefa.Id == 0)
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetByIdTarefa: Histórico da tarefa não encontrado.");
@@ -140,7 +139,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("InsertHistoricoTarefa")]
         [HttpPost]
-        public ActionResult Post([FromBody] HistoricoTarefaDto historicoTarefaDto)
+        public async Task<ActionResult<HistoricoTarefaDto>> Post([FromBody] HistoricoTarefaDto historicoTarefaDto)
         {
             try
             {
@@ -152,7 +151,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Dados do histórico da tarefa inválidos.");
                 }
 
-                historicoTarefaDto = _historicoTarefaService.InserirHistoricoTarefa(historicoTarefaDto);
+                historicoTarefaDto = await _historicoTarefaService.InserirHistoricoTarefa(historicoTarefaDto);
 
                 _logger.LogInformation("Finish ApiHistoricoTarefa to InsertHistoricoTarefa");
                 return StatusCode(StatusCodes.Status201Created, historicoTarefaDto);
@@ -181,7 +180,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("DeleteHistoricoTarefa/{idHistoricoTarefa}")]
         [HttpDelete]
-        public ActionResult Delete(int idHistoricoTarefa)
+        public async Task<ActionResult> Delete(int idHistoricoTarefa)
         {
             try
             {
@@ -193,10 +192,10 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Histórico da Tarefa enviado para exclusão inválido.");
                 }
 
-                _historicoTarefaService.ExcluirHistoricoTarefa(idHistoricoTarefa);
+                await _historicoTarefaService.ExcluirHistoricoTarefa(idHistoricoTarefa);
 
                 _logger.LogInformation("Finish ApiHistoricoTarefa to DeleteHistoricoTarefa");
-                return Ok();
+                return Ok("Historico Apagado com Sucesso.");
 
             }
             catch (DomainException ex)
