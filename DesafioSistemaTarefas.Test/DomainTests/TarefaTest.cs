@@ -10,7 +10,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
     {
         [Theory]
         [TestCase(1, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
-        public void SetarParametrosTarefa_ParametrosValidos_RetornarObjetoValido(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarParametrosTarefa_ParametrosValidos_RetornarObjetoValido(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 
@@ -29,7 +29,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
         }
         [Theory]
         [TestCase(1, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
-        public void SetarParametrosTarefa_ParametrosValidosIdZero_RetornarObjetoValido(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarParametrosTarefa_ParametrosValidosIdZero_RetornarObjetoValido(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 
@@ -48,7 +48,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
         }
         [Theory]
         [TestCase(1, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
-        public void SetarTarefa_ParametrosInvalidos_RetornaExcecao(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarTarefa_ParametrosInvalidos_RetornaExcecao(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 
@@ -66,7 +66,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
 
         [Theory]
         [TestCase(1, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
-        public void CriarTarefa_ParametrosValidos_RetornarObjetoValido(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void CriarTarefa_ParametrosValidos_RetornarObjetoValido(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 
@@ -77,8 +77,8 @@ namespace DesafioSistemaTarefas.Test.DomainTests
             action.Target.Should().NotBeNull();
         }
 
-        [TestCase(null, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
-        public void CriarTarefa_ParametrosValidosIdNulo_RetornarObjetoValido(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        [TestCase(0, "Teste 1.", "Teste de Tarefa nº 1.", "2024-12-20", 1)]
+        public void CriarTarefa_ParametrosValidosIdNulo_RetornarObjetoValido(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 
@@ -97,7 +97,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
                       "Teste 1.", "Te.", "2022-12-20", 1)]
         [TestCase(1, "Teste 1", "Teste de Tarefa nº 1.", "0001-01-01", 1)]
         [TestCase(1, "Te.", "Teste de Tarefa nº 1.", "2022-12-20", 5)]
-        public void CriarTarefa_ParametrosInvalidos_RetornaExcecao(int? idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void CriarTarefa_ParametrosInvalidos_RetornaExcecao(int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa)
         {
 

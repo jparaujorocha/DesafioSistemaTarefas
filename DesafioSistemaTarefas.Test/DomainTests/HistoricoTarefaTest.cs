@@ -11,7 +11,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
 
         [Theory]
         [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, "2022-12-20", "2022-12-20")]
-        public void SetarParametrosHistoricoTarefa_ParametrosValidos_RetornarObjetoValido(int? id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarParametrosHistoricoTarefa_ParametrosValidos_RetornarObjetoValido(int id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao)
         {
 
@@ -33,7 +33,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
         }
         [Theory]
         [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, "2022-12-20", "2022-12-20")]
-        public void SetarParametrosHistoricoTarefa_ParametrosValidosIdZero_RetornarObjetoValido(int? id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarParametrosHistoricoTarefa_ParametrosValidosIdZero_RetornarObjetoValido(int id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao)
         {
 
@@ -55,7 +55,7 @@ namespace DesafioSistemaTarefas.Test.DomainTests
         }
         [Theory]
         [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, "2022-12-20", "2022-12-20")]
-        public void SetarParametrosTarefa_ParametrosInvalidos_RetornaExcecao(int? id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        public void SetarParametrosTarefa_ParametrosInvalidos_RetornaExcecao(int id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao)
         {
 
@@ -76,11 +76,11 @@ namespace DesafioSistemaTarefas.Test.DomainTests
 
 
         [Theory]
-        [TestCase(null, 2, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, null, "2022-12-20")]
+        [TestCase(0, 2, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, null, "2022-12-20")]
         [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, "2022-12-20", null)]
         [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, "2022-12-20", "2022-12-20")]
-        [TestCase(null, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, null, null)]
-        public void CriarHistoricoTarefa_ParametrosValidosSemId_RetornarObjetoValido(int? id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        [TestCase(0, 3, "Hst 1.", "Teste de Hst nº 1.", "2022-12-20", 1, null, null)]
+        public void CriarHistoricoTarefa_ParametrosValidosSemId_RetornarObjetoValido(int id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao)
         {
 
@@ -98,11 +98,11 @@ namespace DesafioSistemaTarefas.Test.DomainTests
         [TestCase(0, 2, "Teste 1.", "Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te." +
                   "Te.Te.Te..Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.Te.", "2022-12-20", 1, null, null)]
         [TestCase(0, 3, "T", "Teste de Tarefa nº 1.", "2022-12-20", 1, null, null)]
-        [TestCase(null, 4, "Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1" +
+        [TestCase(0, 4, "Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1Teste 1" +
                       "Teste 1.", "Te.", "2022-12-20", 1, null, null)]
-        [TestCase(null, 5, "Teste 1", "Teste de Tarefa nº 1.", "0001-01-01", 1, null, null)]
-        [TestCase(null, 6, "Te.", "Teste de Tarefa nº 1.", "2022-12-20", 5, null, null)]
-        public void CriarHistoricoTarefa_ParametrosInvalidos_RetornaExcecao(int? id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
+        [TestCase(0, 5, "Teste 1", "Teste de Tarefa nº 1.", "0001-01-01", 1, null, null)]
+        [TestCase(0, 6, "Te.", "Teste de Tarefa nº 1.", "2022-12-20", 5, null, null)]
+        public void CriarHistoricoTarefa_ParametrosInvalidos_RetornaExcecao(int id, int idTarefa, string nome, string descricao, DateTime dataHoraTarefa,
                                                                        int idStatusTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao)
         {
 

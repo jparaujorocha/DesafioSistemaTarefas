@@ -119,7 +119,6 @@ namespace DesafioSistemaTarefas.Application.Services
                 if (historicoTarefa.ValidateWithoutId())
                 {
                     historicoTarefa = await _historicoTarefaRepository.Add(historicoTarefa);
-                    await _historicoTarefaRepository.Commit();
                 }
 
                 _logger.LogInformation("Finish HistoricoTarefaService to InserirHistoricoTarefa");
@@ -151,7 +150,7 @@ namespace DesafioSistemaTarefas.Application.Services
                     throw new DomainException("Necessário informar um registro válido para exclusão.");
 
                 await _historicoTarefaRepository.Delete(dadosHistoricoTarefa);
-                await _historicoTarefaRepository.Commit();
+                
 
                 _logger.LogInformation("Finish HistoricoTarefaService to ExcluirHistoricoTarefa");
 

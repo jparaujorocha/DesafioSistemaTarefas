@@ -17,16 +17,16 @@ namespace DesafioSistemaTarefas.Domain.Entities
         [Column("IdStatusTarefa")]
         public int IdStatusTarefa { get; private set; }
 
-        public Tarefa(int? id, string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa)
+        public Tarefa(int id, string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa)
         {
             SetStatusTarefa(idStatusTarefa);
             SetNome(nome);
             SetDescricao(descricao);
             SetDataHoraTarefa(dataHoraTarefa);
 
-            if (id.HasValue && id.Value > 0)
+            if (id > 0)
             {
-                SetId(id.Value);
+                SetId(id);
             }
         }
 

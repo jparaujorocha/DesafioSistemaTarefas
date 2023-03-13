@@ -24,6 +24,7 @@ namespace DesafioSistemaTarefas.Infra.Data.Repositories.Base
             try
             {
                 var result = await _context.Set<TEntity>().AddAsync(entity);
+                await _context.SaveChangesAsync();
                 return result.Entity;
             }
             catch (Exception ex)
@@ -38,7 +39,7 @@ namespace DesafioSistemaTarefas.Infra.Data.Repositories.Base
             {
                 _context.Set<TEntity>().Remove(entity);
 
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
 
                 _logger.LogInformation("Finish Operation to delete entity: " + typeof(TEntity).FullName);
             }

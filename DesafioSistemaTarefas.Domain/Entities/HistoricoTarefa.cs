@@ -14,12 +14,12 @@ namespace DesafioSistemaTarefas.Domain.Entities
         [Column("IdTarefa")]
         public int IdTarefa { get; private set; }
 
-        public HistoricoTarefa(int? id, int idTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao,
+        public HistoricoTarefa(int id, int idTarefa, DateTime? dataHoraExclusao, DateTime? dataHoraConclusao,
                                string nome, string descricao, DateTime dataHoraTarefa, int idStatusTarefa) : base(idTarefa, nome, descricao, dataHoraTarefa, idStatusTarefa)
         {
-            if (id.HasValue && id.Value > 0)
+            if (id > 0)
             {
-                SetId(id.Value);
+                SetId(id);
             }
             SetIdTarefa(idTarefa);
             SetDataHoraExclusao(dataHoraExclusao);

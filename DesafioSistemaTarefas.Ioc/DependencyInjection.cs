@@ -17,17 +17,17 @@ namespace DesafioSistemaTarefas.Ioc
         public static IServiceCollection AddInfrastructureAPI(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContextFactory<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
+            }, ServiceLifetime.Scoped);
 
 
             services.AddScoped<ITarefaRepository, TarefaRepository>();
             services.AddScoped<IHistoricoTarefaRepository, HistoricoTarefaRepository>();
             services.AddScoped<ITarefaService, TarefaService>();
-            services.AddScoped<IHistoricoTarefaService, HistoricoTarefaService>();
+            services.AddTransient<IHistoricoTarefaService, HistoricoTarefaService>();
 
             services.AddAutoMapper(typeof(TarefaProfile));
             services.AddAutoMapper(typeof(HistoricoTarefaProfile));

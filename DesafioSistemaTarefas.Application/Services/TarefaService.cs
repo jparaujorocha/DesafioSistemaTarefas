@@ -44,8 +44,6 @@ namespace DesafioSistemaTarefas.Application.Services
                 {
                     tarefa = await _tarefaRepository.Add(tarefa);
 
-                    await _tarefaRepository.Commit();
-
                     _logger.LogInformation("Finish TarefaService to InserirTarefa");
                 }
 
@@ -118,8 +116,8 @@ namespace DesafioSistemaTarefas.Application.Services
 
                 dadosTarefa.SetStatusTarefa((int)EnumStatusTarefa.EXCLUIDA);
 
-                EnviarTarefaParaHistoricoTarefa(dadosTarefa);
-                DeletarTarefa(idTarefa);
+                await EnviarTarefaParaHistoricoTarefa(dadosTarefa);
+                await DeletarTarefa(idTarefa);
                 _logger.LogInformation("Finish TarefaService to InserirTarefa");
 
                 return true;
@@ -316,7 +314,6 @@ namespace DesafioSistemaTarefas.Application.Services
             if (dadosTarefa == null || dadosTarefa.Id == 0)
                 throw new DomainException("Tarefa informada não encontrada na base.");
             await _tarefaRepository.Delete(dadosTarefa);
-            await _tarefaRepository.Commit();
         }
     }
 }
