@@ -5,6 +5,8 @@ using DesafioSistemaTarefas.Domain.Entities;
 using DesafioSistemaTarefas.Domain.Enums;
 using DesafioSistemaTarefas.Domain.Exceptions;
 using DesafioSistemaTarefas.Domain.Inferfaces;
+using DesafioSistemaTarefas.Shared.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace DesafioSistemaTarefas.Application.Services
@@ -22,7 +24,7 @@ namespace DesafioSistemaTarefas.Application.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<HistoricoTarefaDto>> BuscarHistoricoTarefas()
+        public async Task<IEnumerable<HistoricoTarefaDto>> BuscarLista()
         {
             try
             {
@@ -62,15 +64,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar histórico de tarefa por IdTarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.Message);
+                throw;
             }
         }
 
@@ -101,7 +111,7 @@ namespace DesafioSistemaTarefas.Application.Services
             }
         }
 
-        public async Task<HistoricoTarefaDto> InserirHistoricoTarefa(HistoricoTarefaDto dadosHistoricoTarefa)
+        public async Task<HistoricoTarefaDto> Inserir(HistoricoTarefaDto dadosHistoricoTarefa)
         {
             try
             {
@@ -126,20 +136,28 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar histórico de tarefa por Id", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "InsertHistoricoTarefa", ex, ex.Message);
+                throw;
             }
         }
 
 
-        public async Task<bool> ExcluirHistoricoTarefa(int idHistoricoTarefa)
+        public async Task<bool> Excluir(int idHistoricoTarefa)
         {
             try
             {
@@ -158,15 +176,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao excluir histórico de tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "DeleteHistoricoTarefa", ex, ex.Message);
+                throw;
             }
         }
         private void SetDataHoraExclusaoConclusao(HistoricoTarefa historicoTarefa)

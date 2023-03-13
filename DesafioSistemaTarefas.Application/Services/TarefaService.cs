@@ -5,6 +5,8 @@ using DesafioSistemaTarefas.Domain.Entities;
 using DesafioSistemaTarefas.Domain.Enums;
 using DesafioSistemaTarefas.Domain.Exceptions;
 using DesafioSistemaTarefas.Domain.Inferfaces;
+using DesafioSistemaTarefas.Shared.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace DesafioSistemaTarefas.Application.Services
@@ -51,15 +53,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao inserir tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.Message);
+                throw;
             }
         }
 
@@ -95,15 +105,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao atualizar tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.Message);
+                throw;
             }
         }
 
@@ -124,15 +142,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao excluir tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.Message);
+                throw;
             }
         }
 
@@ -158,15 +184,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao concluir tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.Message);
+                throw;
             }
         }
         public async Task<TarefaDto> ReativarTarefa(int idTarefa)
@@ -181,7 +215,7 @@ namespace DesafioSistemaTarefas.Application.Services
 
                 var tarefaDto = await InserirTarefa(_mapper.Map<TarefaDto>(dadosHistoricoTarefa));
 
-                await _historicoTarefaService.ExcluirHistoricoTarefa(dadosHistoricoTarefa.Id.Value);
+                await _historicoTarefaService.Excluir(dadosHistoricoTarefa.Id.Value);
 
                 _logger.LogInformation("Finish TarefaService to ReativarTarefa");
 
@@ -189,15 +223,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao reativar tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.Message);
+                throw;
             }
         }
 
@@ -219,15 +261,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar tarefas", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.Message);
+                throw;
             }
         }
         public async Task<TarefaDto> BuscarTarefa(int idTarefa)
@@ -247,15 +297,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar tarefa", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<TarefaDto>> BuscarTarefasPorPeriodo(DateTime dataInicial, DateTime dataFinal)
@@ -276,18 +334,25 @@ namespace DesafioSistemaTarefas.Application.Services
 
                 return _mapper.Map<IEnumerable<TarefaDto>>(listaTarefas);
             }
-
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar tarefa por período", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.Message);
+                throw;
             }
         }
 
@@ -295,7 +360,7 @@ namespace DesafioSistemaTarefas.Application.Services
         {
             var historicoTarefa = _mapper.Map<HistoricoTarefaDto>(tarefa);
 
-            _ = await _historicoTarefaService.InserirHistoricoTarefa(historicoTarefa);
+            _ = await _historicoTarefaService.Inserir(historicoTarefa);
         }
 
         private Tarefa BuscarTarefaPorId(int idTarefa)

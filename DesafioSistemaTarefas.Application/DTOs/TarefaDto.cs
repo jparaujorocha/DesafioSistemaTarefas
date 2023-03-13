@@ -9,6 +9,6 @@ namespace DesafioSistemaTarefas.Application.DTOs
         public string Descricao { get; set; }
         public DateTime DataHoraTarefa { get; set; }
         public int IdStatusTarefa { get; set; }
-        public string StatusTarefa { get; set; }
+        public string Status { get; set; }
     }
 }

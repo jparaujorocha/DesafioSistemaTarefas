@@ -26,7 +26,7 @@ namespace DesafioSistemaTarefas.API.Controllers
             {
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetHistoricoTarefas");
 
-                var listaHistoricoTarefas = await _historicoTarefaService.BuscarHistoricoTarefas();
+                var listaHistoricoTarefas = await _historicoTarefaService.BuscarLista();
                 if (listaHistoricoTarefas == null || !listaHistoricoTarefas.Any())
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetHistoricoTarefas: Nenhum Historico da Tarefa Encontrado.");
@@ -115,24 +115,8 @@ namespace DesafioSistemaTarefas.API.Controllers
                 _logger.LogInformation("Finish ApiHistoricoTarefa to GetByIdTarefa");
                 return Ok(historicoTarefa);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiHistoricoTarefa", "GetByIdTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar historico da tarefa por id tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiHistoricoTarefa", "GetByIdTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar historico da tarefa por id tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiHistoricoTarefa", "GetByIdTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar historico da tarefa por id tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiHistoricoTarefa", "GetByIdTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar historico da tarefa por id tarefa.");
             }
         }
@@ -151,29 +135,13 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Dados do histórico da tarefa inválidos.");
                 }
 
-                historicoTarefaDto = await _historicoTarefaService.InserirHistoricoTarefa(historicoTarefaDto);
+                historicoTarefaDto = await _historicoTarefaService.Inserir(historicoTarefaDto);
 
                 _logger.LogInformation("Finish ApiHistoricoTarefa to InsertHistoricoTarefa");
                 return StatusCode(StatusCodes.Status201Created, historicoTarefaDto);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiHistoricoTarefa", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao inserir historico da tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiHistoricoTarefa", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao inserir historico da tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiHistoricoTarefa", "InsertHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao inserir historico da tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiHistoricoTarefa", "InsertHistoricoTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao inserir historico da tarefa.");
             }
         }
@@ -192,30 +160,14 @@ namespace DesafioSistemaTarefas.API.Controllers
                     return BadRequest("Histórico da Tarefa enviado para exclusão inválido.");
                 }
 
-                await _historicoTarefaService.ExcluirHistoricoTarefa(idHistoricoTarefa);
+                await _historicoTarefaService.Excluir(idHistoricoTarefa);
 
                 _logger.LogInformation("Finish ApiHistoricoTarefa to DeleteHistoricoTarefa");
                 return Ok("Historico Apagado com Sucesso.");
 
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiHistoricoTarefa", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao deletar historico da tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiHistoricoTarefa", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao deletar historico da tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiHistoricoTarefa", "DeleteHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao deletar historico da tarefa.");
-            }
             catch (Exception ex)
-            {
-                LoggerExtension.LogExceptionError(_logger, "ApiHistoricoTarefa", "DeleteHistoricoTarefa", ex, ex.Message);
+            {             
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao deletar historico da tarefa.");
             }
         }

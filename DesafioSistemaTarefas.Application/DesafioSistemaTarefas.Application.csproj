@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DesafioSistemaTarefas.Domain\DesafioSistemaTarefas.Domain.csproj" />
     <ProjectReference Include="..\DesafioSistemaTarefas.Infra.Data\DesafioSistemaTarefas.Infra.Data.csproj" />
+    <ProjectReference Include="..\DesafioSistemaTarefas.Shared\DesafioSistemaTarefas.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

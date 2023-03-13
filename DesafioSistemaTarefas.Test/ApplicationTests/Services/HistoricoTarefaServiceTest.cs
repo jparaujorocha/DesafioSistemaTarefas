@@ -99,7 +99,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            var result = historicoTarefaService.BuscarHistoricoTarefas();
+            var result = historicoTarefaService.BuscarLista();
 
             _mockHistoricoTarefa.listHistoricoTarefaDtoMock.Should().BeEquivalentTo(result.Result);
         }
@@ -116,7 +116,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            var result = historicoTarefaService.BuscarHistoricoTarefas();
+            var result = historicoTarefaService.BuscarLista();
 
             _mockHistoricoTarefa.listHistoricoTarefaDtoMock.Should().BeEquivalentTo(result.Result);
         }
@@ -139,7 +139,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            var result = historicoTarefaService.InserirHistoricoTarefa(_mockHistoricoTarefa.historicoTarefaDtoMock);
+            var result = historicoTarefaService.Inserir(_mockHistoricoTarefa.historicoTarefaDtoMock);
 
             _mockHistoricoTarefa.historicoTarefaDtoMock.Should().BeEquivalentTo(result.Result);
         }
@@ -155,7 +155,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            var exception = Assert.ThrowsAsync<DomainException>(() => historicoTarefaService.InserirHistoricoTarefa(_mockHistoricoTarefa.historicoTarefaDtoMock));
+            var exception = Assert.ThrowsAsync<DomainException>(() => historicoTarefaService.Inserir(_mockHistoricoTarefa.historicoTarefaDtoMock));
 
             exception.Should().NotBeNull();
             exception.Message.Should().BeSameAs("Necessário informar uma tarefa do histórico para inserção.");
@@ -172,7 +172,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            bool result = historicoTarefaService.ExcluirHistoricoTarefa(_mockHistoricoTarefa.historicoTarefaMockValido.Id).Result;
+            bool result = historicoTarefaService.Excluir(_mockHistoricoTarefa.historicoTarefaMockValido.Id).Result;
 
             result.Should().BeTrue();
         }
@@ -188,7 +188,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
 
-            var exception = Assert.ThrowsAsync<DomainException>(() => historicoTarefaService.ExcluirHistoricoTarefa(300));
+            var exception = Assert.ThrowsAsync<DomainException>(() => historicoTarefaService.Excluir(300));
 
             exception.Should().NotBeNull();
             exception.Message.Should().BeSameAs("Necessário informar um registro válido para exclusão.");

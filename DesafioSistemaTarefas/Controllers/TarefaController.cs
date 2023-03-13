@@ -39,24 +39,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return Ok(listaTarefas);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar tarefas.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar tarefas.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar tarefas.");
-            }
             catch (Exception ex)
-            {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefas", ex, ex.Message);
+            {             
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar tarefas.");
             }
         }
@@ -81,24 +65,8 @@ namespace DesafioSistemaTarefas.API.Controllers
                 return Ok(listaTarefas);
 
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar  tarefas por período.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar  tarefas por período.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar  tarefas por período.");
-            }
             catch (Exception ex)
-            {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefasPorPeriodo", ex, ex.Message);
+            {                
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar tarefas por período.");
             }
         }
@@ -120,24 +88,8 @@ namespace DesafioSistemaTarefas.API.Controllers
                 _logger.LogInformation("Finish ApiTarefa to GetTarefa");
                 return Ok(tarefa);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "GetTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar tarefa.");
             }
         }
@@ -161,24 +113,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return StatusCode(StatusCodes.Status201Created, tarefaDto);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao inserir tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao inserir tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao inserir tarefa.");
-            }
             catch (Exception ex)
-            {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "InsertTarefa", ex, ex.Message);
+            {             
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao inserir tarefa.");
             }
         }
@@ -202,24 +138,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return Ok(tarefaDto);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao atualizar tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao atualizar tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao atualizar tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "UpdateTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao atualizar tarefa.");
             }
         }
@@ -243,24 +163,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return Ok("Tarefa excluída com sucesso.");
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao deletar tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao deletar tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao deletar tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "DeleteTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao deletar tarefa.");
             }
         }
@@ -285,24 +189,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return Ok("Tarefa concluída com sucesso.");
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao concluir tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao concluir tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao concluir tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "UpdateConcluirTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao concluir tarefa.");
             }
         }
@@ -329,24 +217,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
 
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao reativar tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao reativar tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao reativar tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiTarefa", "PostReativarTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao reativar tarefa.");
             }
         }

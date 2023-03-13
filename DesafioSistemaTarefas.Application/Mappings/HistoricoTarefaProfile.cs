@@ -20,7 +20,7 @@ namespace DesafioSistemaTarefas.Application.Mappings
            })
            .ForMember(dest => dest.IdTarefa, opt => opt.MapFrom(src => src.Id))
            .ForMember(dest => dest.IdStatusTarefa, opt => { opt.SetMappingOrder(1); })
-           .ForMember(dest => dest.StatusTarefa, opt =>
+           .ForMember(dest => dest.Status, opt =>
            {
                opt.SetMappingOrder(2);
                opt.MapFrom(src => src.GetNomeStatusTarefa(src.IdStatusTarefa));
@@ -29,7 +29,7 @@ namespace DesafioSistemaTarefas.Application.Mappings
 
             CreateMap<HistoricoTarefa, HistoricoTarefaDto>()
            .ForMember(dest => dest.IdStatusTarefa, opt => { opt.SetMappingOrder(1); })
-           .ForMember(dest => dest.StatusTarefa, opt =>
+           .ForMember(dest => dest.Status, opt =>
            {
                opt.SetMappingOrder(2);
                opt.MapFrom(src => src.GetNomeStatusTarefa(src.IdStatusTarefa));

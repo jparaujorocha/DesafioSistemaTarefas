@@ -11,7 +11,7 @@ namespace DesafioSistemaTarefas.Application.Mappings
             CreateMap<Tarefa, TarefaDto>()
            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
            .ForMember(dest => dest.IdStatusTarefa, opt => { opt.SetMappingOrder(1); })
-           .ForMember(dest => dest.StatusTarefa, opt => {
+           .ForMember(dest => dest.Status, opt => {
                opt.SetMappingOrder(2);
                opt.MapFrom(src => src.GetNomeStatusTarefa(src.IdStatusTarefa));
            })
