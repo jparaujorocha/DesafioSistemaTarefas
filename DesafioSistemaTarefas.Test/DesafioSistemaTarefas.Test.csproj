@@ -19,12 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\DesafioSistemaTarefas.API\DesafioSistemaTarefas.API.csproj" />
     <ProjectReference Include="..\DesafioSistemaTarefas.Application\DesafioSistemaTarefas.Application.csproj" />
-    <ProjectReference Include="..\DesafioSistemaTarefas\DesafioSistemaTarefas.API.csproj" />
   </ItemGroup>
 
 </Project>

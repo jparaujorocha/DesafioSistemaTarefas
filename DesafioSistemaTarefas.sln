@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.API", "DesafioSistemaTarefas\DesafioSistemaTarefas.API.csproj", "{F50814E2-4B5B-45D9-8680-FCC2C033C079}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.API", "DesafioSistemaTarefas.API\DesafioSistemaTarefas.API.csproj", "{F50814E2-4B5B-45D9-8680-FCC2C033C079}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Domain", "DesafioSistemaTarefas.Domain\DesafioSistemaTarefas.Domain.csproj", "{6E3C3477-B3F4-4EEF-BA9F-03936FAAA477}"
 EndProject
