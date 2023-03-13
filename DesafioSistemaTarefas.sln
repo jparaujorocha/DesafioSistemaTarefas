@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.API", "DesafioSistemaTarefas.API\DesafioSistemaTarefas.API.csproj", "{F50814E2-4B5B-45D9-8680-FCC2C033C079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.API", "DesafioSistemaTarefas.API\DesafioSistemaTarefas.API.csproj", "{F50814E2-4B5B-45D9-8680-FCC2C033C079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Domain", "DesafioSistemaTarefas.Domain\DesafioSistemaTarefas.Domain.csproj", "{6E3C3477-B3F4-4EEF-BA9F-03936FAAA477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Domain", "DesafioSistemaTarefas.Domain\DesafioSistemaTarefas.Domain.csproj", "{6E3C3477-B3F4-4EEF-BA9F-03936FAAA477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Application", "DesafioSistemaTarefas.Application\DesafioSistemaTarefas.Application.csproj", "{0FECDD5B-A7A9-4D38-AB69-ED8E24708FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Application", "DesafioSistemaTarefas.Application\DesafioSistemaTarefas.Application.csproj", "{0FECDD5B-A7A9-4D38-AB69-ED8E24708FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Infra.Data", "DesafioSistemaTarefas.Infra.Data\DesafioSistemaTarefas.Infra.Data.csproj", "{2BEB2438-7F44-42AF-B432-22889A05F0A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Infra.Data", "DesafioSistemaTarefas.Infra.Data\DesafioSistemaTarefas.Infra.Data.csproj", "{2BEB2438-7F44-42AF-B432-22889A05F0A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Shared", "DesafioSistemaTarefas.Shared\DesafioSistemaTarefas.Shared.csproj", "{457E9C37-B5E8-432B-9A40-E87F508F86D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Shared", "DesafioSistemaTarefas.Shared\DesafioSistemaTarefas.Shared.csproj", "{457E9C37-B5E8-432B-9A40-E87F508F86D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Ioc", "DesafioSistemaTarefas.Ioc\DesafioSistemaTarefas.Ioc.csproj", "{8AFFB923-C39D-4C74-B95B-062558D9AD52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Ioc", "DesafioSistemaTarefas.Ioc\DesafioSistemaTarefas.Ioc.csproj", "{8AFFB923-C39D-4C74-B95B-062558D9AD52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioSistemaTarefas.Test", "DesafioSistemaTarefas.Test\DesafioSistemaTarefas.Test.csproj", "{D3A24E0A-D4F7-4268-8EAE-D978B9DBB26A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioSistemaTarefas.Test", "DesafioSistemaTarefas.Test\DesafioSistemaTarefas.Test.csproj", "{D3A24E0A-D4F7-4268-8EAE-D978B9DBB26A}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DesafioSistemaTarefas.Front", "DesafioSistemaTarefas.Front\DesafioSistemaTarefas.Front.esproj", "{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,12 @@ Global
 		{D3A24E0A-D4F7-4268-8EAE-D978B9DBB26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3A24E0A-D4F7-4268-8EAE-D978B9DBB26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3A24E0A-D4F7-4268-8EAE-D978B9DBB26A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC3E7F4-E09E-4C7B-A7B5-9F2A62FD00AD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
