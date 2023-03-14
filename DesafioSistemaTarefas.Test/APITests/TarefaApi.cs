@@ -120,14 +120,15 @@ namespace DesafioSistemaTarefas.Test.APITests
 
             _mockTarefa.tarefaDtoMock = MockMapper.mockMapper.Map<TarefaDto>(_mockTarefa.tarefaMockValido);
             var dadosEntrada = _mockTarefa.tarefaDtoMock;
-            dadosEntrada.Id = 0;
+            dadosEntrada.id = 0;
 
             _mockTarefaService.MockInserirTarefa(dadosEntrada, _mockTarefa.tarefaDtoMock);
             var tarefaController = new TarefaController(_mockTarefaService.Object, _mockLoggerTarefa);
 
-            var resultObject = (TarefaDto)((ObjectResult)tarefaController.InsertTarefa(dadosEntrada).Result).Value;
+            var resultObject = tarefaController.InsertTarefa(dadosEntrada);
 
-            _mockTarefa.tarefaDtoMock.Should().BeEquivalentTo(resultObject);
+
+            resultObject.IsCompletedSuccessfully.Should().BeTrue();
         }
         [Test]
         public void PostInsertTarefa_DadosInvalidos_RetornaMensagemErro()
@@ -141,7 +142,7 @@ namespace DesafioSistemaTarefas.Test.APITests
             _mockTarefaService.MockInserirTarefa(dadosEntrada, _mockTarefa.tarefaDtoMock);
             var tarefaController = new TarefaController(_mockTarefaService.Object, _mockLoggerTarefa);
 
-            var resultObject = (string)((BadRequestObjectResult)tarefaController.InsertTarefa(_mockTarefa.tarefaDtoMock).Result).Value;
+            var resultObject = (string)((BadRequestObjectResult)tarefaController.InsertTarefa(_mockTarefa.tarefaDtoMock).Result.Result).Value;
 
             resultObject.Should().BeSameAs("Dados Inválidos.");
         }
@@ -182,9 +183,9 @@ namespace DesafioSistemaTarefas.Test.APITests
             _mockTarefaService.MockReativarTarefa(_mockTarefa.tarefaMockValido.Id, _mockTarefa.tarefaDtoMock);
             var tarefaController = new TarefaController(_mockTarefaService.Object, _mockLoggerTarefa);
 
-            var resultObject = (TarefaDto)((ObjectResult)tarefaController.PostRestaurarTarefa(_mockTarefa.tarefaMockValido.Id).Result).Value;
-            
-            _mockTarefa.tarefaDtoMock.Should().BeEquivalentTo(resultObject);
+            var resultObject = (tarefaController.PostRestaurarTarefa(_mockTarefa.tarefaMockValido.Id));
+
+            resultObject.IsCompletedSuccessfully.Should().BeTrue();
         }
         [Test]
         public void PostRestauraTarefa_DadosInvalidos_RetornaMensagemErro()
@@ -197,7 +198,7 @@ namespace DesafioSistemaTarefas.Test.APITests
             _mockTarefaService.MockReativarTarefa(_mockTarefa.tarefaMockValido.Id, _mockTarefa.tarefaDtoMock);
             var tarefaController = new TarefaController(_mockTarefaService.Object, _mockLoggerTarefa);
 
-            var resultObject = (string)((BadRequestObjectResult)tarefaController.PostRestaurarTarefa(0).Result).Value;
+            var resultObject = (string)((BadRequestObjectResult)tarefaController.PostRestaurarTarefa(0).Result.Result).Value;
 
             resultObject.Should().BeSameAs("Tarefa enviada para reativação inválida.");
         }

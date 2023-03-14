@@ -21,17 +21,17 @@ namespace DesafioSistemaTarefas.API.Controllers
             try
             {
                 logger.LogInformation($"Nova mensagem recebida. IdTarefa:" +
-                    $" {context.Message.Id}");
+                    $" {context.Message.id}");
 
                 await _tarefaService.InserirTarefa(context.Message);
 
                 logger.LogInformation($"Mensagem enviada para Aplicação. IdTarefa:" +
-                    $" {context.Message.Id}");
+                    $" {context.Message.id}");
             }
             catch (Exception ex)
             {
                 logger.LogError($"Erro ao consumir mensagem da fila de tarefas. IdTarefa:" +
-                    $" {context.Message.Id}.", ex);
+                    $" {context.Message.id}.", ex);
 
                 SendToDeadLetter(context);
             }

@@ -14,6 +14,10 @@ namespace DesafioSistemaTarefas.Test.Mocks.Services
         {
             Setup(x => x.BuscarPorIdTarefa(It.Is<int>(i => i == idTarefa))).Returns(Task.FromResult(output));
         }
+        public void MockBuscarHistoricoTarefaPorIdStatus(int idStatus, IEnumerable<HistoricoTarefaDto> output)
+        {
+            Setup(x => x.BuscarPorIdStatus(It.Is<int>(i => i == idStatus))).Returns(Task.FromResult(output));
+        }
         public void MockBuscarHistoricoTarefas(IEnumerable<HistoricoTarefaDto> output)
         {
             Setup(x => x.BuscarLista()).Returns(Task.FromResult(output));

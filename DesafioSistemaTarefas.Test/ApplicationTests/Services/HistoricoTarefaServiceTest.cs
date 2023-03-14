@@ -52,6 +52,24 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             _mockHistoricoTarefa.historicoTarefaDtoMock.Should().BeEquivalentTo(result.Result);
         }
+
+        [Test]
+        public void GetHistoricoTarefaByIdStatus_IdStatusfaNaoExistente_RetornaObjetoNulo()
+        {
+            _mockHistoricoTarefaRepository = new MockHistoricoTarefaRepository();
+            _mockHistoricoTarefa = new MockHistoricoTarefa();
+
+            _mockHistoricoTarefa.historicoTarefaDtoMock = new HistoricoTarefaDto();
+            var historicoNulo = MockMapper.mockMapper.Map<HistoricoTarefa>(_mockHistoricoTarefa.historicoTarefaDtoMock);
+
+            _mockHistoricoTarefaRepository.MockGetByPredicate(Task.FromResult(historicoNulo));
+
+            IHistoricoTarefaService historicoTarefaService = new HistoricoTarefaService(_mockHistoricoTarefaRepository.Object, MockMapper.mockMapper, _mockLoggerHistoricoTarefa);
+
+            var result = historicoTarefaService.BuscarPorIdTarefa(_mockHistoricoTarefa.historicoTarefaMockValido.IdTarefa);
+
+            _mockHistoricoTarefa.historicoTarefaDtoMock.Should().BeEquivalentTo(result.Result);
+        }
         [Test]
         public void GetHistoricoTarefaById_IdExistente_RetornaObjeto()
         {

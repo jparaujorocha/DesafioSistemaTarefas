@@ -9,9 +9,9 @@ namespace DesafioSistemaTarefas.Application.Mappings
         public TarefaProfile()
         {
             CreateMap<Tarefa, TarefaDto>()
-           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-           .ForMember(dest => dest.IdStatusTarefa, opt => { opt.SetMappingOrder(1); })
-           .ForMember(dest => dest.Status, opt => {
+           .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+           .ForMember(dest => dest.idStatusTarefa, opt => { opt.SetMappingOrder(1); })
+           .ForMember(dest => dest.status, opt => {
                opt.SetMappingOrder(2);
                opt.MapFrom(src => src.GetNomeStatusTarefa(src.IdStatusTarefa));
            })

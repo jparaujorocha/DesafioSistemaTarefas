@@ -194,7 +194,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
             var result = tarefaService.AtualizarTarefa(_mockTarefa.tarefaDtoMock);
 
             result.Result.Should().NotBeNull();
-            _mockTarefa.tarefaDtoMock.DataAtualizacao = result.Result.DataAtualizacao;
+            _mockTarefa.tarefaDtoMock.dataAtualizacao = result.Result.dataAtualizacao;
             _mockTarefa.tarefaDtoMock.Should().BeEquivalentTo(result.Result);
         }
 
@@ -320,7 +320,7 @@ namespace DesafioSistemaTarefas.Test.ApplicationTests.Services
 
             var result = tarefaService.ReativarTarefa(_mockTarefa.tarefaMockValido.Id).Result;
             result.Should().NotBeNull();
-            result.IdStatusTarefa.Should().Be((int)EnumStatusTarefa.ATIVA);
+            result.idStatusTarefa.Should().Be((int)EnumStatusTarefa.ATIVA);
         }
 
         [Test]

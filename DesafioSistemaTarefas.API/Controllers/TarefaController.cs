@@ -2,10 +2,12 @@
 using DesafioSistemaTarefas.Application.Interfaces;
 using DesafioSistemaTarefas.Domain.Exceptions;
 using DesafioSistemaTarefas.Shared.Extensions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioSistemaTarefas.API.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("[controller]")]
     [ApiController]
     public class TarefaController : ControllerBase
@@ -80,7 +82,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                 _logger.LogInformation("Start ApiTarefa to GetTarefa");
 
                 var tarefa = await _tarefaService.BuscarTarefa(id);
-                if (tarefa == null || tarefa.Id == 0)
+                if (tarefa == null || tarefa.id == 0)
                 {
                     _logger.LogWarning("Finish ApiTarefa to GetTarefa: Tarefa não encontrada.");
                     return NotFound("Tarefa não encontrada.");
@@ -96,7 +98,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("InsertTarefa")]
         [HttpPost]
-        public async Task<ActionResult> InsertTarefa([FromBody] TarefaDto tarefaDto)
+        public async Task<ActionResult<TarefaDto>> InsertTarefa([FromBody] TarefaDto tarefaDto)
         {
             try
             {
@@ -126,7 +128,7 @@ namespace DesafioSistemaTarefas.API.Controllers
             try
             {
                 _logger.LogInformation("Start ApiTarefa to UpdateTarefa");
-                if (tarefaDto == null || tarefaDto.Id == 0)
+                if (tarefaDto == null || tarefaDto.id == 0)
                 {
                     _logger.LogWarning("Finish ApiTarefa to UpdateTarefa: Tarefa enviada para atualização inválida.");
                     return BadRequest("Tarefa enviada para atualização inválida.");
@@ -197,7 +199,7 @@ namespace DesafioSistemaTarefas.API.Controllers
 
         [Route("PostReativarTarefa/{idTarefa}")]
         [HttpPost]
-        public async Task<ActionResult> PostRestaurarTarefa(int idTarefa)
+        public async Task<ActionResult<TarefaDto>> PostRestaurarTarefa(int idTarefa)
         {
             try
             {
@@ -214,8 +216,6 @@ namespace DesafioSistemaTarefas.API.Controllers
                 var tarefaDto = await _tarefaService.ReativarTarefa(idTarefa);
 
                 return StatusCode(StatusCodes.Status201Created, tarefaDto);
-
-
             }
             catch (Exception ex)
             {

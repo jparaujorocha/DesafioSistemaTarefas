@@ -108,6 +108,36 @@ namespace DesafioSistemaTarefas.Test.APITests
             resultObject.Should().BeSameAs("Histórico da tarefa não encontrado.");
         }
         [Test]
+        public void GetHistoricoTarefaPorStatus_IdStatusValido_RetornaObjeto()
+        {
+            _mockHistoricoTarefaService = new MockHistoricoTarefaService();
+            _mockHistoricoTarefa = new MockHistoricoTarefa();
+
+            _mockHistoricoTarefa.listHistoricoTarefaDtoMock = MockMapper.mockMapper.Map<IEnumerable<HistoricoTarefaDto>>(_mockHistoricoTarefa.listHistoricoTarefaMockValido);
+
+            _mockHistoricoTarefaService.MockBuscarHistoricoTarefaPorIdStatus(_mockHistoricoTarefa.historicoTarefaMockValido.IdStatusTarefa, _mockHistoricoTarefa.listHistoricoTarefaDtoMock);
+            var historicoTarefaController = new HistoricoTarefaController(_mockHistoricoTarefaService.Object, _mockLoggerHistoricoTarefa);
+
+            var resultObject = (IEnumerable<HistoricoTarefaDto>)((OkObjectResult)historicoTarefaController.GetByStatus(_mockHistoricoTarefa.historicoTarefaMockValido.IdStatusTarefa).Result.Result).Value;
+
+            _mockHistoricoTarefa.listHistoricoTarefaDtoMock.Should().BeEquivalentTo(resultObject);
+        }
+        [Test]
+        public void GetHistoricoTarefaPorIdStatus_IdStatusInvalido_RetornaMensagemErro()
+        {
+            _mockHistoricoTarefaService = new MockHistoricoTarefaService();
+            _mockHistoricoTarefa = new MockHistoricoTarefa();
+
+            _mockHistoricoTarefa.historicoTarefaDtoMock = MockMapper.mockMapper.Map<HistoricoTarefaDto>(_mockHistoricoTarefa.historicoTarefaMockValido);
+
+            _mockHistoricoTarefaService.MockBuscarHistoricoTarefaPorIdStatus(_mockHistoricoTarefa.historicoTarefaMockValido.IdTarefa, _mockHistoricoTarefa.listHistoricoTarefaDtoMock);
+            var historicoTarefaController = new HistoricoTarefaController(_mockHistoricoTarefaService.Object, _mockLoggerHistoricoTarefa);
+
+            var resultObject = (string)((NotFoundObjectResult)historicoTarefaController.GetByStatus(580).Result.Result).Value;
+
+            resultObject.Should().BeSameAs("Nenhum histórico encontrado.");
+        }
+        [Test]
         public void PostInsertHistoricoTarefa_DadosValidos_RetornaObjeto()
         {
             _mockHistoricoTarefaService = new MockHistoricoTarefaService();
@@ -115,7 +145,7 @@ namespace DesafioSistemaTarefas.Test.APITests
 
             _mockHistoricoTarefa.historicoTarefaDtoMock = MockMapper.mockMapper.Map<HistoricoTarefaDto>(_mockHistoricoTarefa.historicoTarefaMockValido);
             var dadosEntrada = _mockHistoricoTarefa.historicoTarefaDtoMock;
-            dadosEntrada.Id = 0;
+            dadosEntrada.id = 0;
 
             _mockHistoricoTarefaService.MockInserirHistoricoTarefa(dadosEntrada, _mockHistoricoTarefa.historicoTarefaDtoMock);
             var historicoTarefaController = new HistoricoTarefaController(_mockHistoricoTarefaService.Object, _mockLoggerHistoricoTarefa);

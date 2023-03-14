@@ -79,16 +79,17 @@ namespace DesafioSistemaTarefas.Application.Services
             {
                 _logger.LogInformation("Start TarefaService to AtualizarTarefa");
 
-                if (dadosTarefa == null || !dadosTarefa.Id.HasValue || dadosTarefa.Id == 0)
+                if (dadosTarefa == null || !dadosTarefa.id.HasValue || dadosTarefa.id == 0)
                     throw new DomainException("Necessário informar uma tarefa para atualização.");
 
-                var tarefa = _tarefaRepository.GetById(dadosTarefa.Id.Value).Result;
+                var tarefa = _tarefaRepository.GetById(dadosTarefa.id.Value).Result;
 
                 if (tarefa == null || tarefa.Id == 0)
                     throw new DomainException("Nenhuma tarefa encontrada para atualização.");
 
-                dadosTarefa.DataCriacao = tarefa.DataCriacao;
-                dadosTarefa.DataAtualizacao = DateTime.Now;
+                dadosTarefa.dataCriacao = tarefa.DataCriacao;
+                dadosTarefa.dataAtualizacao = DateTime.Now;
+                dadosTarefa.idStatusTarefa = tarefa.IdStatusTarefa;
 
                 tarefa = _mapper.Map<Tarefa>(dadosTarefa);
 
@@ -210,12 +211,12 @@ namespace DesafioSistemaTarefas.Application.Services
                 _logger.LogInformation("Start TarefaService to ReativarTarefa");
                 var dadosHistoricoTarefa = _historicoTarefaService.BuscarPorIdTarefa(idTarefa).Result;
 
-                if (dadosHistoricoTarefa == null || dadosHistoricoTarefa.Id == 0)
+                if (dadosHistoricoTarefa == null || dadosHistoricoTarefa.id == 0)
                     throw new DomainException("Tarefa informada não encontrada na base histórica.");
 
                 var tarefaDto = await InserirTarefa(_mapper.Map<TarefaDto>(dadosHistoricoTarefa));
 
-                await _historicoTarefaService.Excluir(dadosHistoricoTarefa.Id.Value);
+                await _historicoTarefaService.Excluir(dadosHistoricoTarefa.id.Value);
 
                 _logger.LogInformation("Finish TarefaService to ReativarTarefa");
 

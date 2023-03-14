@@ -38,15 +38,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar histórico de tarefas", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefas", ex, ex.Message);
+                throw;
             }
         }
 
@@ -61,6 +69,40 @@ namespace DesafioSistemaTarefas.Application.Services
 
                 _logger.LogInformation("Finish HistoricoTarefaService to BuscarPorIdTarefa");
                 return _mapper.Map<HistoricoTarefaDto>(historicoTarefa);
+            }
+            catch (DomainException ex)
+            {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (DataBaseException ex)
+            {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "GetByIdTarefa", ex, ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<HistoricoTarefaDto>> BuscarPorIdStatus(int idStatus)
+        {
+            try
+            {
+                _logger.LogInformation("Start HistoricoTarefaService to BuscarPorIdTarefa");
+                var listaHistoricoTarefa = await _historicoTarefaRepository.GetAll(a => a.IdStatusTarefa == idStatus);
+                if (listaHistoricoTarefa == null || !listaHistoricoTarefa.Any())
+                    return new List<HistoricoTarefaDto>();
+
+                _logger.LogInformation("Finish HistoricoTarefaService to BuscarPorIdTarefa");
+                return _mapper.Map<IEnumerable<HistoricoTarefaDto>>(listaHistoricoTarefa);
             }
             catch (DomainException ex)
             {
@@ -99,15 +141,23 @@ namespace DesafioSistemaTarefas.Application.Services
             }
             catch (DomainException ex)
             {
+                LoggerExtension.LogDomainExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (DataBaseException ex)
             {
+                LoggerExtension.LogDatabaseExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
+                throw;
+            }
+            catch (ApplicationException ex)
+            {
+                LoggerExtension.LogApplicationExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Erro ao buscar histórico de tarefa por Id", innerException: ex);
+                LoggerExtension.LogExceptionError(_logger, "HistoricoTarefaService", "GetHistoricoTarefa", ex, ex.Message);
+                throw;
             }
         }
 

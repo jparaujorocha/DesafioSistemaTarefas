@@ -5,10 +5,10 @@ namespace DesafioSistemaTarefas.Application.DTOs
     [ExcludeFromCodeCoverage]
     public class TarefaDto : BaseDto
     {
-        public string Nome { get; set; }
-        public string Descricao { get; set; }
-        public DateTime DataHoraTarefa { get; set; }
-        public int IdStatusTarefa { get; set; }
-        public string Status { get; set; }
+        public string nome { get; set; }
+        public string descricao { get; set; }
+        public DateTime dataHoraTarefa { get; set; }
+        public int idStatusTarefa { get; set; }
+        public string status { get; set; }
     }
 }

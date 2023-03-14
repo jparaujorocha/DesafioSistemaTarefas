@@ -4,7 +4,10 @@ const PROXY_CONFIG = [
       "/weatherforecast",
     ],
     target: "https://localhost:5001",
-    secure: false
+    secure: false,
+    logLevel: "debug",
+    changeOrigin: true,
+    pathRewrite: { "^/api": "" }
   }
 ]
 

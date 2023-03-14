@@ -6,6 +6,7 @@ namespace DesafioSistemaTarefas.Application.Interfaces
     {
         Task<HistoricoTarefaDto> BuscarPorId(int idHistoricoTarefa);
         Task<HistoricoTarefaDto> BuscarPorIdTarefa(int idTarefa);
+        Task<IEnumerable<HistoricoTarefaDto>> BuscarPorIdStatus(int idStatus);
         Task<IEnumerable<HistoricoTarefaDto>> BuscarLista();
         Task<HistoricoTarefaDto> Inserir(HistoricoTarefaDto dadosTarefa);
         Task<bool> Excluir(int idHistoricoTarefa);

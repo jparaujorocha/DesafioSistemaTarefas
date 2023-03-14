@@ -2,11 +2,13 @@
 using DesafioSistemaTarefas.Application.Interfaces;
 using DesafioSistemaTarefas.Domain.Exceptions;
 using DesafioSistemaTarefas.Shared.Extensions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioSistemaTarefas.API.Controllers
 {
-    [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
+    [Route("[controller]")]
     [ApiController]
     public class HistoricoTarefaController : ControllerBase
     {
@@ -38,24 +40,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 return Ok(listaHistoricoTarefas);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar historico da tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar historico da tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefas", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar historico da tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefas", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar historico da tarefa.");
             }
         }
@@ -68,7 +54,7 @@ namespace DesafioSistemaTarefas.API.Controllers
             {
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetHistoricoTarefa");
                 var historicoTarefa = await _historicoTarefaService.BuscarPorId(id);
-                if (historicoTarefa == null || !historicoTarefa.Id.HasValue || historicoTarefa.Id == 0)
+                if (historicoTarefa == null || !historicoTarefa.id.HasValue || historicoTarefa.id == 0)
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetHistoricoTarefa: Histórico da tarefa não encontrado.");
                     return NotFound("Histórico da tarefa não encontrado.");
@@ -76,24 +62,8 @@ namespace DesafioSistemaTarefas.API.Controllers
                 _logger.LogInformation("Finish ApiHistoricoTarefa to GetHistoricoTarefa");
                 return Ok(historicoTarefa);
             }
-            catch (DomainException ex)
-            {
-                LoggerExtension.LogDomainExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DomainError ao recuperar historico da tarefa.");
-            }
-            catch (DataBaseException ex)
-            {
-                LoggerExtension.LogDatabaseExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "DbError ao recuperar historico da tarefa.");
-            }
-            catch (ApplicationException ex)
-            {
-                LoggerExtension.LogApplicationExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefa", ex, ex.InnerException?.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, "ApplicationError ao recuperar historico da tarefa.");
-            }
             catch (Exception ex)
             {
-                LoggerExtension.LogExceptionError(_logger, "ApiHistoricoTarefa", "GetHistoricoTarefa", ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar historico da tarefa.");
             }
         }
@@ -107,7 +77,7 @@ namespace DesafioSistemaTarefas.API.Controllers
                 _logger.LogInformation("Start ApiHistoricoTarefa to GetByIdTarefa");
                 var historicoTarefa = await _historicoTarefaService.BuscarPorIdTarefa(idTarefa);
 
-                if (historicoTarefa == null || !historicoTarefa.Id.HasValue || historicoTarefa.Id == 0)
+                if (historicoTarefa == null || !historicoTarefa.id.HasValue || historicoTarefa.id == 0)
                 {
                     _logger.LogWarning("Finish ApiHistoricoTarefa to GetByIdTarefa: Histórico da tarefa não encontrado.");
                     return NotFound("Histórico da tarefa não encontrado.");
@@ -121,6 +91,29 @@ namespace DesafioSistemaTarefas.API.Controllers
             }
         }
 
+        [Route("GetByStatus/{idStatus}")]
+        [HttpGet]
+        public async Task<ActionResult<HistoricoTarefaDto[]>> GetByStatus(int idStatus)
+        {
+            try
+            {
+                _logger.LogInformation("Start ApiHistoricoTarefa to GetByIdTarefa");
+                var historicoTarefa = await _historicoTarefaService.BuscarPorIdStatus(idStatus);
+
+                if (historicoTarefa == null || !historicoTarefa.Any())
+                {
+                    _logger.LogWarning("Finish ApiHistoricoTarefa to GetByStatus: Histórico da tarefa não encontrado.");
+                    return NotFound("Nenhum histórico encontrado.");
+                }
+                _logger.LogInformation("Finish ApiHistoricoTarefa to GetByIdTarefa");
+                return Ok(historicoTarefa);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao recuperar historico da tarefa por id tarefa.");
+            }
+        }
+        [DisableCors]
         [Route("InsertHistoricoTarefa")]
         [HttpPost]
         public async Task<ActionResult<HistoricoTarefaDto>> Post([FromBody] HistoricoTarefaDto historicoTarefaDto)
