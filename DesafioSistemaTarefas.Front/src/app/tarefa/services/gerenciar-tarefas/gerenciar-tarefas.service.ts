@@ -14,7 +14,6 @@ export class GerenciarTarefasService implements IGerenciarTarefasService {
   constructor(private tarefaApiCommunication : ITarefaApiCommunication,
               private historicoTarefaApiCommunication : IHistoricoTarefaApiCommunication){}
   getTarefasAtivas(): Observable<TarefaDto[]> {
-    console.log(2);
     return this.tarefaApiCommunication.getTarefasAtivas();
   }
   getTarefasConcluidas(): Observable<HistoricoTarefaDto[]> {
@@ -23,7 +22,7 @@ export class GerenciarTarefasService implements IGerenciarTarefasService {
   getTarefasExcluidas(): Observable<HistoricoTarefaDto[]> {
     return this.historicoTarefaApiCommunication.getHistoricoTarefasExcluidas();
   }
-  concluirTarefa(idTarefa: Number): Observable<HttpClient> {
+  concluirTarefa(idTarefa: Number): Observable<any> {
     return this.tarefaApiCommunication.concluirTarefa(idTarefa);
   }
   excluirTarefa(idTarefa: Number): Observable<any> {

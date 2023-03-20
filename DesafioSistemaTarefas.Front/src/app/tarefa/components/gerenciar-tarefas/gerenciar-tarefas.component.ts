@@ -62,9 +62,6 @@ export class GerenciarTarefasComponent implements OnInit {
     try{
       this.iGerenciarTarefasService.getTarefasAtivas().subscribe((resultado) => {     
         this.tarefasAtivas = resultado as TarefaDto[];
-
-        console.log(this.tarefasAtivas[0]);
-        console.log(this.tarefasAtivas[0].status);
         
     }); 
   }
@@ -126,10 +123,8 @@ this.message = '';
 
   public concluirTarefa(id: Number) {  
     try{
-      console.log('ID: ' + id);
       this.iGerenciarTarefasService.concluirTarefa(id).subscribe(resultado => {
       
-        console.log('Resultado: ' + resultado);
         this.message = "Sucesso ao concluir";
         this.carregarNomesColunas(0);
     }); 
@@ -151,7 +146,6 @@ this.message = '';
   public excluirTarefa(idTarefa: Number) {  
     try{
       this.iGerenciarTarefasService.excluirTarefa(idTarefa).subscribe(resultado => {
-        console.log(resultado);
         this.message = "Sucesso ao excluir";
         this.carregarNomesColunas(0);
     }); 
@@ -174,7 +168,6 @@ this.message = '';
     try{
       this.iGerenciarTarefasService.reativarTarefa(idTarefa).subscribe((resultado) => {
       
-        console.log("Teste: " + resultado);
         this.message = "Sucesso ao reativar";
         this.carregarNomesColunas(this.indexAtualAba);
     }); 
@@ -198,7 +191,6 @@ this.message = '';
       this.iGerenciarTarefasService.buscarTarefaNoHistorico(idTarefa).subscribe(resultado => {
         
         this.tarefa = resultado;
-        console.log(this.tarefa.id);
         this.formTarefaEdicao = this.formbuilder.group({
           tituloTarefa: [{value:this.tarefa.nome, disabled: true}, [Validators.required, Validators.minLength(10), Validators.maxLength(20)]],
           descricaoTarefa: [{value: this.tarefa.descricao, disabled: true}, [Validators.required, Validators.minLength(5), Validators.maxLength(100),]],
@@ -257,7 +249,6 @@ this.message = '';
       
       this.iGerenciarTarefasService.buscarPorIdTarefa(idTarefa).subscribe(resultado => {
         this.tarefa = resultado;
-        console.log(this.tarefa.id);
         this.formTarefaEdicao = this.formbuilder.group({
           tituloTarefa: [this.tarefa.nome, [Validators.required, Validators.minLength(10), Validators.maxLength(20)]],
           descricaoTarefa: [this.tarefa.descricao, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
@@ -284,7 +275,6 @@ this.message = '';
 
   public inserirTarefa = (formTarefa : any) => {  
     try{
-      console.log(formTarefa.dataHoraTarefa);
       this.tarefa = new TarefaDto();
       this.tarefa.nome = formTarefa.tituloTarefa;
       this.tarefa.descricao = formTarefa.descricaoTarefa;
@@ -314,14 +304,11 @@ this.message = '';
   }
   public atualizarTarefa = (formTarefaEdicao : any) => {  
     
-    console.log("ID " + formTarefaEdicao.idTarefa + formTarefaEdicao.tituloTarefa);
     this.tarefa = new TarefaDto();
     this.tarefa.id = formTarefaEdicao.idTarefa;
     this.tarefa.nome = formTarefaEdicao.tituloTarefa;
     this.tarefa.descricao = formTarefaEdicao.descricaoTarefa;
     this.tarefa.dataHoraTarefa = formTarefaEdicao.dataHoraTarefa;
-
-    console.log('Tarefa ' + formTarefaEdicao.tituloTarefa);
     try{
       this.iGerenciarTarefasService.atualizarTarefa(this.tarefa).subscribe(resultado => {
       

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "DesafioSistemaTarefas.Ioc": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51330;http://localhost:51331"
+    }
+  }
+}

@@ -22,7 +22,6 @@ export class TarefaApiCommunication implements ITarefaApiCommunication {
      }
 
   getTarefasAtivas(): Observable<TarefaDto[]> {
-    console.log(3);
    
     return this.http.get<TarefaDto[]>(this.url + "GetTarefas/");
   }
@@ -30,8 +29,8 @@ export class TarefaApiCommunication implements ITarefaApiCommunication {
   getTarefaById(idTarefa: Number): Observable<TarefaDto> {
     return this.http.get<TarefaDto>(this.url + "GetTarefa/" + idTarefa);
   }
-  concluirTarefa(idTarefa: Number):Observable<HttpClient> {
-    return this.http.put<HttpClient>(this.url + "UpdateConcluirTarefa/" + idTarefa, { responseType: 'text', headers: headers});  
+  concluirTarefa(idTarefa: Number):Observable<any> {
+    return this.http.put(this.url + "UpdateConcluirTarefa/" + idTarefa, {  responseType: 'text' as 'json', headers: headers});  
   }
   excluirTarefa(idTarefa: Number): Observable<any> {
     return this.http.delete(this.url + "DeleteTarefa/" + idTarefa, { responseType: 'text', headers: headers});  

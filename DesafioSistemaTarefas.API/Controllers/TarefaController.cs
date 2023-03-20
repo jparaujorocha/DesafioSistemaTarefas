@@ -189,7 +189,8 @@ namespace DesafioSistemaTarefas.API.Controllers
 
                 _logger.LogInformation("Finish ApiTarefa to UpdateConcluirTarefa");
 
-                return Ok("Tarefa concluída com sucesso.");
+
+                return Ok();
             }
             catch (Exception ex)
             {

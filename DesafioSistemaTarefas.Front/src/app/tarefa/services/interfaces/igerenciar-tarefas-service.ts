@@ -10,7 +10,7 @@ export abstract class  IGerenciarTarefasService {
     abstract getTarefasAtivas(): Observable<TarefaDto[]>;
     abstract getTarefasConcluidas(): Observable<HistoricoTarefaDto[]>;
     abstract getTarefasExcluidas(): Observable<HistoricoTarefaDto[]>;
-    abstract concluirTarefa(idTarefa : Number): Observable<HttpClient>;
+    abstract concluirTarefa(idTarefa : Number): Observable<any>;
     abstract excluirTarefa(idTarefa : Number): Observable<any>;
     abstract reativarTarefa(idTarefa : Number): Observable<TarefaDto>;
     abstract inserirTarefa(tarefaDto : TarefaDto): Observable<TarefaDto>;
