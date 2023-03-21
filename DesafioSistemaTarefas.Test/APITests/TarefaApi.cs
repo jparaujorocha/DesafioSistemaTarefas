@@ -212,9 +212,9 @@ namespace DesafioSistemaTarefas.Test.APITests
             _mockTarefaService.MockConcluirTarefa(_mockTarefa.tarefaMockValido.Id, true);
             var tarefaController = new TarefaController(_mockTarefaService.Object, _mockLoggerTarefa);
 
-            var resultObject = (string)((OkObjectResult)tarefaController.UpdateConcluirTarefa(_mockTarefa.tarefaMockValido.Id).Result).Value;
+            var resultObject = (OkResult)tarefaController.UpdateConcluirTarefa(_mockTarefa.tarefaMockValido.Id).Result;
 
-            resultObject.Should().BeSameAs("Tarefa concluída com sucesso.");
+            resultObject.StatusCode.Should().Be(200);
         }
 
         [Test]

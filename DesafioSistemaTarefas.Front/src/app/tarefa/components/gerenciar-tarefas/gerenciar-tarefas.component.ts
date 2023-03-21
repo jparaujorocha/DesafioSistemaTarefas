@@ -221,9 +221,9 @@ this.message = '';
       this.iGerenciarTarefasService.buscarPorIdTarefa(idTarefa).subscribe(resultado => {
         this.tarefa = resultado;
         this.formTarefaEdicao = this.formbuilder.group({
-          tituloTarefa: [this.tarefa.nome, [Validators.required, Validators.minLength(10), Validators.maxLength(20)]],
-          descricaoTarefa: [this.tarefa.descricao, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-          dataHoraTarefa:[{ value: this.tarefa.dataHoraTarefa, disabled: false }, Validators.required],
+          tituloTarefa: [{value:this.tarefa.nome, disabled: true}, [Validators.required, Validators.minLength(10), Validators.maxLength(20)]],
+          descricaoTarefa: [{value: this.tarefa.descricao, disabled: true}, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+          dataHoraTarefa:[{ value: this.tarefa.dataHoraTarefa, disabled: true }, Validators.required],
           idTarefa:[{ value: this.tarefa.id, disabled: true }]
         });
 
